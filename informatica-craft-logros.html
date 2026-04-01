@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InformáticaCraft — Logros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap');
+
+  :root {
+    --bg-deep: #0a0c0a;
+    --bg-panel: #1a1c1a;
+    --bg-card: #252825;
+    --bg-card-hover: #2e312e;
+    --border-dark: #0d0f0d;
+    --border-mid: #3a3d3a;
+    --border-light: #5a5d5a;
+    --green-mc: #55ff55;
+    --green-dim: #1a7a1a;
+    --green-glow: #39ff14;
+    --gold: #ffaa00;
+    --gold-dim: #7a4400;
+    --purple: #aa00ff;
+    --purple-dim: #3a006a;
+    --red: #ff5555;
+    --cyan: #55ffff;
+    --white-mc: #e0e0e0;
+    --gray-mc: #666a66;
+    --locked-bg: #161816;
+    --locked-border: #2a2d2a;
+    --common: #aaaaaa;
+    --rare: #5555ff;
+    --epic: #aa00ff;
+    --legendary: #ffaa00;
+    --font-pixel: 'Press Start 2P', monospace;
+    --font-vt: 'VT323', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg-deep);
+    color: var(--white-mc);
+    font-family: var(--font-pixel);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Scanlines overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Pixel border helper */
+  .px-border {
+    border-style: solid;
+    border-color: #000 #4a4d4a #4a4d4a #000;
+    border-width: 3px;
+    box-shadow: inset -2px -2px 0 rgba(0,0,0,0.6), inset 2px 2px 0 rgba(255,255,255,0.08);
+  }
+
+  /* ======= HEADER ======= */
+  header {
+    background: linear-gradient(180deg, #1e2a1e 0%, #141a14 100%);
+    border-bottom: 4px solid #0a0a0a;
+    border-top: 4px solid #3a4a3a;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+  }
+
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-icon {
+    width: 48px;
+    height: 48px;
+    image-rendering: pixelated;
+    display: grid;
+    grid-template-columns: repeat(8,1fr);
+    grid-template-rows: repeat(8,1fr);
+    gap: 0;
+    flex-shrink: 0;
+  }
+
+  .logo-icon span {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .title-group h1 {
+    font-size: clamp(10px, 2vw, 16px);
+    color: var(--green-mc);
+    text-shadow: 0 2px 0 #003300, 0 0 12px rgba(85,255,85,0.5);
+    letter-spacing: 1px;
+  }
+
+  .title-group .subtitle {
+    font-family: var(--font-vt);
+    font-size: clamp(16px, 3vw, 22px);
+    color: #888;
+    letter-spacing: 3px;
+    margin-top: 2px;
+  }
+
+  /* Progress bar in header */
+  .progress-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex: 1;
+    max-width: 320px;
+  }
+
+  .progress-label {
+    font-size: 7px;
+    color: var(--gold);
+    text-align: right;
+  }
+
+  .xp-bar-wrap {
+    width: 100%;
+    height: 14px;
+    background: #0a0a0a;
+    border: 2px solid #222;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.8), 0 0 8px rgba(85,170,0,0.2);
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .xp-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3a8a00, #55ff55, #aaff55);
+    transition: width 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    position: relative;
+  }
+
+  .xp-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: rgba(255,255,255,0.25);
+  }
+
+  .xp-bar-shimmer {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 30px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { left: -30px; }
+    100% { left: 100%; }
+  }
+
+  .counter-badge {
+    font-size: 8px;
+    color: var(--green-mc);
+    background: rgba(0,80,0,0.4);
+    border: 2px solid var(--green-dim);
+    padding: 4px 10px;
+    text-shadow: 0 0 8px var(--green-glow);
+    white-space: nowrap;
+  }
+
+  /* ======= FILTER BAR ======= */
+  .filter-bar {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter-label {
+    font-size: 7px;
+    color: var(--gray-mc);
+    margin-right: 4px;
+  }
+
+  .filter-btn {
+    font-family: var(--font-pixel);
+    font-size: 7px;
+    padding: 6px 14px;
+    border: none;
+    cursor: pointer;
+    background: var(--bg-panel);
+    color: var(--gray-mc);
+    border-top: 2px solid #3a3d3a;
+    border-left: 2px solid #3a3d3a;
+    border-bottom: 2px solid #0d0f0d;
+    border-right: 2px solid #0d0f0d;
+    transition: all 0.1s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .filter-btn:hover {
+    background: var(--bg-card-hover);
+    color: var(--white-mc);
+  }
+
+  .filter-btn.active {
+    background: #1a3a1a;
+    color: var(--green-mc);
+    border-top: 2px solid #0d0f0d;
+    border-left: 2px solid #0d0f0d;
+    border-bottom: 2px solid #3a3d3a;
+    border-right: 2px solid #3a3d3a;
+    text-shadow: 0 0 8px var(--green-glow);
+  }
+
+  .rarity-filter {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+    flex-wrap: wrap;
+  }
+
+  .rarity-dot {
+    width: 10px; height: 10px;
+    display: inline-block;
+    margin-right: 4px;
+    vertical-align: middle;
+    image-rendering: pixelated;
+  }
+
+  /* ======= CATEGORY SECTIONS ======= */
+  .main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+  }
+
+  .category-section {
+    margin-bottom: 32px;
+  }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: linear-gradient(90deg, #1e2a1e, transparent);
+    border-left: 4px solid var(--green-mc);
+    margin-bottom: 16px;
+  }
+
+  .category-header h2 {
+    font-size: clamp(8px, 1.5vw, 11px);
+    color: var(--green-mc);
+    text-shadow: 0 0 8px rgba(85,255,85,0.4);
+    letter-spacing: 1px;
+  }
+
+  .category-count {
+    font-family: var(--font-vt);
+    font-size: 18px;
+    color: var(--gray-mc);
+    margin-left: auto;
+  }
+
+  .achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+  }
+
+  /* ======= ACHIEVEMENT CARD ======= */
+  .achievement-card {
+    background: var(--bg-card);
+    border-top: 3px solid #3a3d3a;
+    border-left: 3px solid #3a3d3a;
+    border-bottom: 3px solid #0d0f0d;
+    border-right: 3px solid #0d0f0d;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.15s;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    user-select: none;
+    overflow: hidden;
+  }
+
+  .achievement-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .achievement-card:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-1px);
+  }
+
+  .achievement-card:hover::before { opacity: 1; }
+
+  .achievement-card:active {
+    transform: translateY(1px);
+    border-top: 3px solid #0d0f0d;
+    border-left: 3px solid #0d0f0d;
+    border-bottom: 3px solid #3a3d3a;
+    border-right: 3px solid #3a3d3a;
+  }
+
+  /* Locked state */
+  .achievement-card.locked {
+    background: var(--locked-bg);
+    border-top-color: #1a1d1a;
+    border-left-color: #1a1d1a;
+  }
+
+  .achievement-card.locked .ach-title { color: #444; }
+  .achievement-card.locked .ach-desc { color: #333; }
+  .achievement-card.locked .ach-icon { filter: grayscale(1) brightness(0.3); }
+
+  /* Unlocked glow by rarity */
+  .achievement-card.unlocked.common {
+    background: #1e201e;
+    border-top-color: #4a4d4a;
+    border-left-color: #4a4d4a;
+  }
+
+  .achievement-card.unlocked.rare {
+    background: #18182a;
+    border-top-color: #3a3a8a;
+    border-left-color: #3a3a8a;
+    box-shadow: inset 0 0 20px rgba(85,85,255,0.08), 0 0 6px rgba(85,85,255,0.15);
+  }
+
+  .achievement-card.unlocked.epic {
+    background: #1e1028;
+    border-top-color: #6a2a9a;
+    border-left-color: #6a2a9a;
+    box-shadow: inset 0 0 20px rgba(170,0,255,0.1), 0 0 8px rgba(170,0,255,0.2);
+  }
+
+  .achievement-card.unlocked.legendary {
+    background: #281800;
+    border-top-color: #9a5a00;
+    border-left-color: #9a5a00;
+    box-shadow: inset 0 0 20px rgba(255,170,0,0.1), 0 0 10px rgba(255,170,0,0.25);
+    animation: legendary-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes legendary-pulse {
+    0%, 100% { box-shadow: inset 0 0 20px rgba(255,170,0,0.1), 0 0 10px rgba(255,170,0,0.25); }
+    50% { box-shadow: inset 0 0 30px rgba(255,170,0,0.15), 0 0 18px rgba(255,170,0,0.4); }
+  }
+
+  .ach-icon {
+    font-size: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    image-rendering: pixelated;
+  }
+
+  .ach-info { flex: 1; min-width: 0; }
+
+  .ach-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+
+  .ach-title {
+    font-size: 8px;
+    color: var(--white-mc);
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  .achievement-card.unlocked.legendary .ach-title {
+    color: var(--gold);
+    text-shadow: 0 0 6px rgba(255,170,0,0.5);
+  }
+
+  .achievement-card.unlocked.epic .ach-title {
+    color: #cc88ff;
+  }
+
+  .achievement-card.unlocked.rare .ach-title {
+    color: #8888ff;
+  }
+
+  .rarity-badge {
+    font-size: 5px;
+    padding: 2px 5px;
+    border: 1px solid;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .rarity-badge.common { color: var(--common); border-color: #555; background: #1a1a1a; }
+  .rarity-badge.rare { color: #8888ff; border-color: #5555aa; background: #12121e; }
+  .rarity-badge.epic { color: #cc88ff; border-color: #8833cc; background: #160d1e; }
+  .rarity-badge.legendary { color: var(--gold); border-color: #8a5500; background: #1e1000; }
+
+  .ach-desc {
+    font-family: var(--font-vt);
+    font-size: 16px;
+    color: #888;
+    line-height: 1.2;
+  }
+
+  .ach-xp {
+    font-size: 6px;
+    color: var(--green-mc);
+    margin-top: 5px;
+    opacity: 0.7;
+  }
+
+  .achievement-card.locked .ach-xp { color: #333; }
+
+  /* Check mark */
+  .check-indicator {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .achievement-card.unlocked .check-indicator { opacity: 1; }
+
+  /* ======= UNLOCK ANIMATION ======= */
+  @keyframes unlock-burst {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.04); }
+    30% { transform: scale(0.98); }
+    100% { transform: scale(1); }
+  }
+
+  .achievement-card.just-unlocked {
+    animation: unlock-burst 0.4s ease-out;
+  }
+
+  /* Toast notification */
+  #toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+  }
+
+  .toast {
+    background: #1a1c1a;
+    border-top: 3px solid #3a3d3a;
+    border-left: 3px solid #3a3d3a;
+    border-bottom: 3px solid #0d0f0d;
+    border-right: 3px solid #0d0f0d;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 280px;
+    max-width: 360px;
+    animation: toast-in 0.3s ease-out, toast-out 0.4s 2.6s ease-in forwards;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+  }
+
+  .toast.legendary { border-top-color: #9a5a00; border-left-color: #9a5a00; box-shadow: 0 4px 20px rgba(0,0,0,0.8), 0 0 15px rgba(255,170,0,0.3); }
+  .toast.epic { border-top-color: #6a2a9a; border-left-color: #6a2a9a; }
+  .toast.rare { border-top-color: #3a3a8a; border-left-color: #3a3a8a; }
+
+  @keyframes toast-in {
+    from { transform: translateX(120%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes toast-out {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(120%); opacity: 0; }
+  }
+
+  .toast-icon { font-size: 24px; }
+
+  .toast-body { flex: 1; }
+
+  .toast-header {
+    font-size: 6px;
+    color: var(--green-mc);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 3px;
+  }
+
+  .toast.legendary .toast-header { color: var(--gold); text-shadow: 0 0 6px rgba(255,170,0,0.5); }
+
+  .toast-title {
+    font-size: 8px;
+    color: var(--white-mc);
+  }
+
+  /* ======= EMPTY STATE ======= */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--gray-mc);
+  }
+
+  .empty-state p { font-size: 8px; margin-top: 16px; }
+
+  /* ======= SCROLLBAR ======= */
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #0a0a0a; }
+  ::-webkit-scrollbar-thumb { background: #2a2d2a; border: 2px solid #0a0a0a; }
+  ::-webkit-scrollbar-thumb:hover { background: #3a3d3a; }
+
+  /* ======= RESPONSIVE ======= */
+  @media (max-width: 600px) {
+    .header-inner { padding: 12px 16px; }
+    .filter-bar { padding: 10px 16px; }
+    .main-content { padding: 0 16px 30px; }
+    .achievements-grid { grid-template-columns: 1fr; }
+    .rarity-filter { margin-left: 0; }
+    .progress-section { max-width: 200px; }
+    .title-group h1 { font-size: 9px; }
+  }
+
+  /* Particles */
+  .particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    width: 6px; height: 6px;
+    animation: particle-fly 0.8s ease-out forwards;
+  }
+
+  @keyframes particle-fly {
+    0% { opacity: 1; transform: translate(0,0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+  }
+
+  /* Hidden items */
+  .achievement-card.hidden-item { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-area">
+      <!-- Pixel art grass block -->
+      <svg width="48" height="48" viewBox="0 0 8 8" style="image-rendering:pixelated;flex-shrink:0">
+        <rect width="8" height="8" fill="#7a4a2a"/>
+        <rect y="0" width="8" height="3" fill="#5a9a2a"/>
+        <rect x="0" y="2" width="8" height="1" fill="#4a8a1a"/>
+        <rect x="0" y="1" width="1" height="1" fill="#6aaa3a"/>
+        <rect x="3" y="0" width="1" height="1" fill="#6aaa3a"/>
+        <rect x="6" y="1" width="2" height="1" fill="#6aaa3a"/>
+        <rect x="2" y="3" width="1" height="5" fill="#6a3a1a"/>
+        <rect x="5" y="3" width="1" height="5" fill="#6a3a1a"/>
+      </svg>
+      <div class="title-group">
+        <h1>InformáticaCraft</h1>
+        <div class="subtitle">▶ ACHIEVEMENTS UNLOCKED</div>
+      </div>
+    </div>
+    <div class="progress-section">
+      <div class="progress-label">
+        <span id="unlocked-count">0</span> / <span id="total-count">0</span> LOGROS — <span id="percent">0</span>% XP
+      </div>
+      <div class="xp-bar-wrap">
+        <div class="xp-bar-fill" id="xp-bar" style="width:0%">
+          <div class="xp-bar-shimmer"></div>
+        </div>
+      </div>
+      <div class="counter-badge">⚡ <span id="xp-total">0</span> XP TOTAL</div>
+    </div>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <span class="filter-label">FILTRAR:</span>
+  <button class="filter-btn active" data-filter="all">Todos</button>
+  <button class="filter-btn" data-filter="unlocked">✔ Completados</button>
+  <button class="filter-btn" data-filter="locked">🔒 Pendientes</button>
+  <div class="rarity-filter">
+    <button class="filter-btn" data-rarity="all">Todas las rarezas</button>
+    <button class="filter-btn" data-rarity="common"><span style="color:#aaa">■</span> Común</button>
+    <button class="filter-btn" data-rarity="rare"><span style="color:#55f">■</span> Raro</button>
+    <button class="filter-btn" data-rarity="epic"><span style="color:#a0f">■</span> Épico</button>
+    <button class="filter-btn" data-rarity="legendary"><span style="color:#fa0">■</span> Legendario</button>
+  </div>
+</div>
+
+<div class="main-content" id="main-content"></div>
+
+<div id="toast-container"></div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const categories = [
+  {
+    id: 'basicos', label: '🎓 Básicos', emoji: '🎓',
+    achievements: [
+      { id: 'primer_spawn', icon: '🌄', title: 'Primer Spawn', desc: 'Asistir al primer día de clases', rarity: 'common', xp: 10 },
+      { id: 'crafteando_futuro', icon: '📋', title: 'Crafteando Futuro', desc: 'Inscribirse a materias', rarity: 'common', xp: 10 },
+      { id: 'explorador_novato', icon: '🗺️', title: 'Explorador Novato', desc: 'Encontrar todas las aulas sin perderte', rarity: 'common', xp: 20 },
+      { id: 'npc_desbloqueado', icon: '🗣️', title: 'NPC Desbloqueado', desc: 'Hablar con un profesor por primera vez', rarity: 'common', xp: 10 },
+    ]
+  },
+  {
+    id: 'academicos', label: '📚 Académicos', emoji: '📚',
+    achievements: [
+      { id: 'modo_creativo', icon: '💡', title: 'Modo Creativo Activado', desc: 'Entender un tema difícil', rarity: 'rare', xp: 40 },
+      { id: 'encantamiento_1', icon: '✨', title: 'Encantamiento Nivel 1', desc: 'Aprobar el primer parcial', rarity: 'common', xp: 30 },
+      { id: 'encantamiento_30', icon: '🔮', title: 'Encantamiento Nivel 30', desc: 'Promocionar una materia', rarity: 'epic', xp: 80 },
+      { id: 'farmeo_intensivo', icon: '📖', title: 'Farmeo Intensivo', desc: 'Estudiar más de 5 horas seguidas', rarity: 'rare', xp: 50 },
+      { id: 'libro_legendario', icon: '📕', title: 'Libro Legendario', desc: 'Leer un apunte completo', rarity: 'rare', xp: 40 },
+      { id: 'multitasking', icon: '📱', title: 'Maestro del Multitasking', desc: 'Estudiar y usar el celular al mismo tiempo 😏', rarity: 'common', xp: 15 },
+    ]
+  },
+  {
+    id: 'supervivencia', label: '☕ Supervivencia', emoji: '☕',
+    achievements: [
+      { id: 'pocion_energia', icon: '☕', title: 'Poción de Energía', desc: 'Tomar café antes de un examen', rarity: 'common', xp: 10 },
+      { id: 'resistencia_iv', icon: '🛡️', title: 'Resistencia IV', desc: 'Sobrevivir a una clase de 4+ horas', rarity: 'rare', xp: 35 },
+      { id: 'modo_hardcore', icon: '💀', title: 'Modo Hardcore', desc: 'Cursar sin dormir bien', rarity: 'rare', xp: 45 },
+      { id: 'inventario_lleno', icon: '🎒', title: 'Inventario Lleno', desc: 'Llevar mochila explotada', rarity: 'common', xp: 15 },
+      { id: 'hp_critico', icon: '❤️', title: 'HP Crítico', desc: 'Llegar a fin de semana sin energía', rarity: 'common', xp: 20 },
+    ]
+  },
+  {
+    id: 'graciosos', label: '😂 Graciosos / Meme', emoji: '😂',
+    achievements: [
+      { id: 'afk_mental', icon: '🤯', title: 'AFK Mental', desc: 'Estar en clase pero no entender nada', rarity: 'common', xp: 20 },
+      { id: 'lag_cerebral', icon: '🐌', title: 'Lag Cerebral', desc: 'Quedarte pensando una pregunta fácil', rarity: 'common', xp: 15 },
+      { id: 'bug_sistema', icon: '📤', title: 'Bug del Sistema', desc: 'Entregar mal un trabajo por error', rarity: 'common', xp: 20 },
+      { id: 'rage_quit', icon: '🚪', title: 'Rage Quit', desc: 'Salir antes de que termine la clase', rarity: 'common', xp: 25 },
+      { id: 'speedrun_fallido', icon: '⏱️', title: 'Speedrun Fallido', desc: 'Estudiar todo el día anterior', rarity: 'rare', xp: 30 },
+      { id: 'modo_fantasma', icon: '👻', title: 'Modo Fantasma', desc: 'Ir a cursar sin hablar con nadie', rarity: 'common', xp: 15 },
+      { id: 'npc_sospechoso', icon: '🕵️', title: 'NPC Sospechoso', desc: 'Ese compañero que nunca sabés si cursa', rarity: 'common', xp: 10 },
+    ]
+  },
+  {
+    id: 'sociales', label: '👥 Sociales', emoji: '👥',
+    achievements: [
+      { id: 'clan_formado', icon: '🤝', title: 'Clan Formado', desc: 'Armar grupo de estudio', rarity: 'common', xp: 25 },
+      { id: 'comercio_justo', icon: '📄', title: 'Comercio Justo', desc: 'Intercambiar apuntes', rarity: 'common', xp: 20 },
+      { id: 'alianza_estrategica', icon: '👀', title: 'Alianza Estratégica', desc: 'Copiarte con alguien 😏', rarity: 'rare', xp: 35 },
+      { id: 'guild_master', icon: '👑', title: 'Guild Master', desc: 'Organizar un trabajo grupal', rarity: 'rare', xp: 40 },
+      { id: 'pvp_activado', icon: '⚔️', title: 'PvP Activado', desc: 'Discutir con un profesor (con respeto 😅)', rarity: 'epic', xp: 60 },
+    ]
+  },
+  {
+    id: 'inteligencia', label: '🧠 Inteligencia / Progreso', emoji: '🧠',
+    achievements: [
+      { id: 'nivel_subido', icon: '📈', title: 'Nivel Subido', desc: 'Mejorar notas respecto a un parcial anterior', rarity: 'rare', xp: 50 },
+      { id: 'skill_desbloqueada', icon: '🔓', title: 'Skill Desbloqueada', desc: 'Entender algo que antes no podías', rarity: 'rare', xp: 45 },
+      { id: 'arbol_habilidades', icon: '🌳', title: 'Árbol de Habilidades', desc: 'Elegir especialización/orientación', rarity: 'epic', xp: 70 },
+      { id: 'xp_bonus', icon: '⭐', title: 'XP Bonus', desc: 'Ayudar a un compañero a entender', rarity: 'rare', xp: 40 },
+    ]
+  },
+  {
+    id: 'legendarios', label: '💀 Difíciles / Legendarios', emoji: '💀',
+    achievements: [
+      { id: 'jefe_final', icon: '🐉', title: 'Jefe Final', desc: 'Aprobar un final difícil', rarity: 'epic', xp: 100 },
+      { id: 'modo_dios', icon: '⚡', title: 'Modo Dios', desc: 'Promocionar todas las materias', rarity: 'legendary', xp: 200 },
+      { id: 'sobreviviente', icon: '🏆', title: 'Sobreviviente', desc: 'No recursar ninguna', rarity: 'legendary', xp: 150 },
+      { id: 'inmortal', icon: '♾️', title: 'Inmortal', desc: 'No faltar nunca', rarity: 'legendary', xp: 180 },
+      { id: 'run_perfecta', icon: '💯', title: 'Run Perfecta', desc: 'Sacar 10 en un examen', rarity: 'epic', xp: 120 },
+    ]
+  },
+  {
+    id: 'vida_uni', label: '🧃 Vida Universitaria', emoji: '🧃',
+    achievements: [
+      { id: 'food_buff', icon: '🍽️', title: 'Food Buff', desc: 'Comer en el comedor universitario', rarity: 'common', xp: 15 },
+      { id: 'economia_crisis', icon: '💸', title: 'Economía en Crisis', desc: 'Llegar sin plata a fin de mes', rarity: 'common', xp: 20 },
+      { id: 'viaje_epico', icon: '🚌', title: 'Viaje Épico', desc: 'Ir todos los días en colectivo', rarity: 'common', xp: 25 },
+      { id: 'spawn_random', icon: '🔀', title: 'Spawn Random', desc: 'Cambiar de aula a último momento', rarity: 'common', xp: 20 },
+    ]
+  },
+  {
+    id: 'ultra_graciosos', label: '🧨 Ultra Graciosos', emoji: '🧨',
+    achievements: [
+      { id: 'era_maniana', icon: '😱', title: '"Era para mañana?"', desc: 'Confundir fechas de entrega', rarity: 'epic', xp: 50 },
+      { id: 'pdf_warrior', icon: '📁', title: 'PDF Warrior', desc: 'Tener 200 PDFs y no leer ninguno', rarity: 'rare', xp: 35 },
+      { id: 'ctrl_cv', icon: '📋', title: 'Ctrl+C / Ctrl+V', desc: 'Reutilizar trabajos viejos', rarity: 'rare', xp: 40 },
+      { id: 'modo_avion', icon: '✈️', title: 'Modo Avión', desc: 'Desaparecer en época de parciales', rarity: 'rare', xp: 45 },
+      { id: 'milagro_academico', icon: '🙏', title: 'Milagro Académico', desc: 'Aprobar sin saber cómo', rarity: 'legendary', xp: 100 },
+      { id: 'el_elegido', icon: '☝️', title: 'El Elegido', desc: 'Ser el único que entendió la consigna', rarity: 'epic', xp: 75 },
+      { id: 'plot_twist', icon: '🔄', title: 'Plot Twist', desc: 'El profesor cambia todo en el examen', rarity: 'epic', xp: 60 },
+    ]
+  },
+  {
+    id: 'programacion', label: '🧠 Programación', emoji: '💻',
+    achievements: [
+      { id: 'hola_mundo', icon: '👋', title: 'Hola Mundo', desc: 'Ejecutar tu primer programa', rarity: 'common', xp: 20 },
+      { id: 'compila_o_muere', icon: '⚙️', title: 'Compila o Muere', desc: 'Lograr que el código compile sin errores', rarity: 'rare', xp: 40 },
+      { id: 'bug_hunter', icon: '🔍', title: 'Bug Hunter', desc: 'Encontrar y arreglar un bug solo', rarity: 'rare', xp: 50 },
+      { id: 'hydra_bug', icon: '🐍', title: 'Hydra Bug', desc: 'Arreglar un bug y que aparezcan 3 más', rarity: 'epic', xp: 60 },
+      { id: 'codigo_espagueti', icon: '🍝', title: 'Código Espagueti', desc: 'Funciona… pero nadie sabe por qué', rarity: 'rare', xp: 35 },
+      { id: 'clean_code', icon: '✨', title: 'Clean Code', desc: 'Escribir código prolijo y entendible', rarity: 'epic', xp: 80 },
+      { id: 'ctrl_c_master', icon: '📋', title: 'Ctrl + C Master', desc: 'Usar código de internet correctamente', rarity: 'common', xp: 20 },
+      { id: 'stack_overflow_god', icon: '🙌', title: 'Stack Overflow God', desc: 'Encontrar EXACTAMENTE tu error online', rarity: 'rare', xp: 45 },
+    ]
+  },
+  {
+    id: 'debugging', label: '🐛 Debugging', emoji: '🐛',
+    achievements: [
+      { id: 'print_debugger', icon: '🖨️', title: 'Print Debugger', desc: 'Usar print() para encontrar errores', rarity: 'common', xp: 15 },
+      { id: 'breakpoint_legendario', icon: '🔴', title: 'Breakpoint Legendario', desc: 'Usar debugger como pro', rarity: 'rare', xp: 50 },
+      { id: 'error_fantasma', icon: '👻', title: 'Error Fantasma', desc: 'El error desaparece solo', rarity: 'epic', xp: 65 },
+      { id: 'por_que_no_anda', icon: '😤', title: '¿Por Qué No Anda?', desc: 'Estar 2 horas con un error boludo', rarity: 'common', xp: 30 },
+      { id: 'solucion_magica', icon: '🪄', title: 'Solución Mágica', desc: 'Arreglar algo sin saber cómo', rarity: 'legendary', xp: 90 },
+    ]
+  },
+  {
+    id: 'parciales_info', label: '💀 Parciales y Finales Info', emoji: '📝',
+    achievements: [
+      { id: 'primer_parcial_info', icon: '📝', title: 'Primer Parcial', desc: 'Sobrevivir al primero', rarity: 'common', xp: 30 },
+      { id: 'pantalla_azul', icon: '🔵', title: 'Pantalla Azul', desc: 'Quedarte en blanco en el examen', rarity: 'rare', xp: 40 },
+      { id: 'ultimo_intento', icon: '🎯', title: 'Último Intento', desc: 'Aprobar en la última oportunidad', rarity: 'epic', xp: 90 },
+      { id: 'milagro_informatico', icon: '✝️', title: 'Milagro Informático', desc: 'Aprobar sin entender mucho', rarity: 'legendary', xp: 100 },
+      { id: 'codigo_perfecto_info', icon: '💎', title: 'Código Perfecto', desc: 'Sacar alta nota en programación', rarity: 'epic', xp: 110 },
+    ]
+  },
+  {
+    id: 'proyectos', label: '👨‍💻 Proyectos', emoji: '🗂️',
+    achievements: [
+      { id: 'proyecto_inicial', icon: '📦', title: 'Proyecto Inicial', desc: 'Entregar tu primer TP', rarity: 'common', xp: 25 },
+      { id: 'merge_conflict', icon: '⚡', title: 'Merge Conflict', desc: 'Problemas al unir código', rarity: 'rare', xp: 40 },
+      { id: 'funciona_mi_maquina', icon: '🖥️', title: 'Funciona en mi Máquina', desc: 'Solo anda en tu compu 😅', rarity: 'epic', xp: 55 },
+      { id: 'deploy_fallido', icon: '💥', title: 'Deploy Fallido', desc: 'Romper todo en producción', rarity: 'epic', xp: 70 },
+      { id: 'proyecto_legendario', icon: '🏆', title: 'Proyecto Legendario', desc: 'Entregar algo que realmente anda bien', rarity: 'legendary', xp: 150 },
+    ]
+  },
+  {
+    id: 'tecnologia', label: '🖥️ Tecnología', emoji: '⌨️',
+    achievements: [
+      { id: 'terminal_novato', icon: '💻', title: 'Terminal Novato', desc: 'Usar la consola', rarity: 'common', xp: 20 },
+      { id: 'modo_hacker', icon: '👤', title: 'Modo Hacker', desc: 'Usar comandos sin mirar tutorial', rarity: 'rare', xp: 50 },
+      { id: 'git_init', icon: '🌿', title: 'Git Init', desc: 'Crear tu primer repositorio', rarity: 'common', xp: 25 },
+      { id: 'commit_spam', icon: '📤', title: 'Commit Spam', desc: '20 commits por día', rarity: 'rare', xp: 35 },
+      { id: 'push_del_panico', icon: '😰', title: 'Push del Pánico', desc: 'Subir cambios a último momento', rarity: 'epic', xp: 55 },
+    ]
+  },
+  {
+    id: 'vida_programador', label: '☕ Vida de Programador', emoji: '🌙',
+    achievements: [
+      { id: 'cafe_infinito', icon: '☕', title: 'Café Infinito', desc: 'Programar con café encima', rarity: 'common', xp: 15 },
+      { id: 'noches_codigo', icon: '🌙', title: 'Noches de Código', desc: 'Programar de madrugada', rarity: 'rare', xp: 40 },
+      { id: 'modo_zombie', icon: '🧟', title: 'Modo Zombie', desc: 'Ir sin dormir a clase', rarity: 'rare', xp: 35 },
+      { id: 'loop_infinito', icon: '🔁', title: 'Loop Infinito', desc: 'Quedarte atrapado en un problema', rarity: 'epic', xp: 60 },
+      { id: 'stack_dependiente', icon: '🆘', title: 'Stack Overflow Dependiente', desc: 'No vivir sin ayuda online', rarity: 'common', xp: 20 },
+    ]
+  },
+  {
+    id: 'meme_realidad', label: '😂 Meme / Realidad', emoji: '🎭',
+    achievements: [
+      { id: 'punto_y_coma', icon: '😤', title: 'Era un Punto y Coma', desc: 'El error más clásico', rarity: 'common', xp: 25 },
+      { id: 'copie_y_rompi', icon: '💣', title: 'Copié y Rompí Todo', desc: 'Tocar algo que funcionaba', rarity: 'rare', xp: 40 },
+      { id: 'tutorial_divergente', icon: '📺', title: 'Tutorial Divergente', desc: 'El tutorial no coincide con tu versión', rarity: 'common', xp: 20 },
+      { id: 'no_lo_toques', icon: '🚫', title: 'Funciona… no lo toques', desc: 'Miedo a romper el código', rarity: 'rare', xp: 35 },
+      { id: 'ingenieria_inversa', icon: '🔬', title: 'Ingeniería Inversa', desc: 'Entender código ajeno', rarity: 'epic', xp: 65 },
+    ]
+  },
+  {
+    id: 'trabajo_equipo', label: '🧑‍🤝‍🧑 Trabajo en Equipo', emoji: '🤜',
+    achievements: [
+      { id: 'equipo_formado', icon: '🤝', title: 'Equipo Formado', desc: 'Armar grupo', rarity: 'common', xp: 20 },
+      { id: 'el_fantasma_info', icon: '👻', title: 'El Fantasma', desc: 'El que no hace nada', rarity: 'rare', xp: 30 },
+      { id: 'el_pro', icon: '🦸', title: 'El Pro', desc: 'El que hace todo', rarity: 'epic', xp: 70 },
+      { id: 'reunion_infinita', icon: '🔄', title: 'Reunión Infinita', desc: 'Juntarse y no avanzar nada', rarity: 'common', xp: 15 },
+      { id: 'entrega_heroica', icon: '🚀', title: 'Entrega Heroica', desc: 'Terminar todo a último momento', rarity: 'epic', xp: 80 },
+    ]
+  },
+  {
+    id: 'nivel_avanzado', label: '🧩 Nivel Avanzado', emoji: '⚙️',
+    achievements: [
+      { id: 'arquitecto_sistemas', icon: '🏗️', title: 'Arquitecto de Sistemas', desc: 'Diseñar bien un sistema', rarity: 'epic', xp: 90 },
+      { id: 'optimizacion_extrema', icon: '⚡', title: 'Optimización Extrema', desc: 'Hacer código más eficiente', rarity: 'epic', xp: 85 },
+      { id: 'sin_stack_overflow', icon: '🧠', title: 'Sin Stack Overflow', desc: 'Resolver algo sin ayuda', rarity: 'legendary', xp: 130 },
+      { id: 'bug_imposible', icon: '🐉', title: 'Bug Imposible', desc: 'Arreglar algo muy complejo', rarity: 'legendary', xp: 140 },
+      { id: 'modo_senior', icon: '🎓', title: 'Modo Senior', desc: 'Explicar algo difícil fácil', rarity: 'epic', xp: 100 },
+    ]
+  },
+  {
+    id: 'ultra_legendarios', label: '🧨 Ultra Legendarios (Mitos)', emoji: '🌟',
+    achievements: [
+      { id: 'compila_primera', icon: '🏅', title: 'Compila a la Primera', desc: '(mito)', rarity: 'legendary', xp: 500 },
+      { id: 'documentacion_leida', icon: '📚', title: 'Documentación Leída', desc: 'Nadie lo hace', rarity: 'legendary', xp: 300 },
+      { id: 'sin_bugs', icon: '✅', title: 'Sin Bugs', desc: 'Inexistente', rarity: 'legendary', xp: 999 },
+      { id: 'dormir_8h', icon: '😴', title: 'Dormir 8 Horas', desc: 'Más raro que aprobar todo', rarity: 'legendary', xp: 400 },
+      { id: 'codigo_sin_google', icon: '🔥', title: 'Código Sin Google', desc: 'Nivel dios', rarity: 'legendary', xp: 777 },
+    ]
+  },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let unlocked = {};
+let filterStatus = 'all';
+let filterRarity = 'all';
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('informatica_craft_logros_v2');
+    if (saved) unlocked = JSON.parse(saved);
+  } catch(e) { unlocked = {}; }
+}
+
+function saveState() {
+  localStorage.setItem('informatica_craft_logros_v2', JSON.stringify(unlocked));
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderAll() {
+  const container = document.getElementById('main-content');
+  container.innerHTML = '';
+  let anyVisible = false;
+
+  categories.forEach(cat => {
+    const visibleAchs = cat.achievements.filter(a => {
+      const isUnlocked = !!unlocked[a.id];
+      if (filterStatus === 'unlocked' && !isUnlocked) return false;
+      if (filterStatus === 'locked' && isUnlocked) return false;
+      if (filterRarity !== 'all' && a.rarity !== filterRarity) return false;
+      return true;
+    });
+
+    if (visibleAchs.length === 0) return;
+    anyVisible = true;
+
+    const section = document.createElement('div');
+    section.className = 'category-section';
+
+    const catUnlocked = cat.achievements.filter(a => unlocked[a.id]).length;
+
+    section.innerHTML = `
+      <div class="category-header">
+        <h2>${cat.label}</h2>
+        <span class="category-count">${catUnlocked}/${cat.achievements.length}</span>
+      </div>
+      <div class="achievements-grid" id="grid-${cat.id}"></div>
+    `;
+    container.appendChild(section);
+
+    const grid = section.querySelector(`#grid-${cat.id}`);
+    visibleAchs.forEach(a => {
+      grid.appendChild(createCard(a));
+    });
+  });
+
+  if (!anyVisible) {
+    container.innerHTML = `<div class="empty-state"><div style="font-size:48px">🔍</div><p>No hay logros en este filtro.</p></div>`;
+  }
+
+  updateProgress();
+}
+
+function createCard(a) {
+  const isUnlocked = !!unlocked[a.id];
+  const card = document.createElement('div');
+  card.className = `achievement-card ${isUnlocked ? 'unlocked' : 'locked'} ${a.rarity}`;
+  card.dataset.id = a.id;
+
+  const rarityLabels = { common: 'COMÚN', rare: 'RARO', epic: 'ÉPICO', legendary: 'LEGENDARIO' };
+
+  card.innerHTML = `
+    <div class="ach-icon">${a.icon}</div>
+    <div class="ach-info">
+      <div class="ach-top">
+        <div class="ach-title">${a.title}</div>
+        <div class="rarity-badge ${a.rarity}">${rarityLabels[a.rarity]}</div>
+      </div>
+      <div class="ach-desc">${a.desc}</div>
+      <div class="ach-xp">+${a.xp} XP</div>
+    </div>
+    <div class="check-indicator">${a.rarity === 'legendary' ? '⭐' : '✔'}</div>
+  `;
+
+  card.addEventListener('click', () => toggleAchievement(a, card));
+  return card;
+}
+
+function toggleAchievement(a, card) {
+  const wasUnlocked = !!unlocked[a.id];
+
+  if (!wasUnlocked) {
+    unlocked[a.id] = true;
+    card.classList.remove('locked');
+    card.classList.add('unlocked', 'just-unlocked');
+    setTimeout(() => card.classList.remove('just-unlocked'), 400);
+    spawnParticles(card, a.rarity);
+    showToast(a);
+  } else {
+    delete unlocked[a.id];
+    card.classList.remove('unlocked');
+    card.classList.add('locked');
+  }
+
+  saveState();
+  updateProgress();
+  updateCategoryCount(card);
+}
+
+function updateCategoryCount(card) {
+  // Find the section this card belongs to
+  const grid = card.closest('.achievements-grid');
+  if (!grid) return;
+  const section = grid.closest('.category-section');
+  if (!section) return;
+  const header = section.querySelector('.category-count');
+  if (!header) return;
+
+  const allCards = grid.querySelectorAll('.achievement-card');
+  const unlockedCards = grid.querySelectorAll('.achievement-card.unlocked');
+  header.textContent = `${unlockedCards.length}/${allCards.length}`;
+}
+
+function updateProgress() {
+  let total = 0, unlockCount = 0, totalXP = 0, earnedXP = 0;
+  categories.forEach(cat => {
+    cat.achievements.forEach(a => {
+      total++;
+      totalXP += a.xp;
+      if (unlocked[a.id]) {
+        unlockCount++;
+        earnedXP += a.xp;
+      }
+    });
+  });
+
+  const pct = total > 0 ? Math.round((unlockCount / total) * 100) : 0;
+  document.getElementById('unlocked-count').textContent = unlockCount;
+  document.getElementById('total-count').textContent = total;
+  document.getElementById('percent').textContent = pct;
+  document.getElementById('xp-bar').style.width = pct + '%';
+  document.getElementById('xp-total').textContent = earnedXP.toLocaleString();
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(a) {
+  const container = document.getElementById('toast-container');
+  const rarityLabels = { common: '✔ Logro desbloqueado', rare: '✦ Logro raro desbloqueado', epic: '⬡ ¡Logro épico!', legendary: '★ ¡¡LOGRO LEGENDARIO!!' };
+  const toast = document.createElement('div');
+  toast.className = `toast ${a.rarity}`;
+  toast.innerHTML = `
+    <div class="toast-icon">${a.icon}</div>
+    <div class="toast-body">
+      <div class="toast-header">${rarityLabels[a.rarity]}</div>
+      <div class="toast-title">${a.title}</div>
+    </div>
+    <div style="font-size:7px;color:#666;margin-left:auto">+${a.xp} XP</div>
+  `;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3100);
+}
+
+// ============================================================
+// PARTICLES
+// ============================================================
+function spawnParticles(card, rarity) {
+  const rect = card.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const colors = {
+    common: ['#aaa', '#888', '#ccc'],
+    rare: ['#55f', '#88f', '#aaf'],
+    epic: ['#a0f', '#c8f', '#80d'],
+    legendary: ['#fa0', '#fc0', '#f80']
+  };
+  const palette = colors[rarity] || colors.common;
+
+  for (let i = 0; i < 12; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const angle = (Math.random() * Math.PI * 2);
+    const dist = 40 + Math.random() * 80;
+    p.style.cssText = `
+      left: ${cx - 3}px;
+      top: ${cy - 3}px;
+      background: ${palette[Math.floor(Math.random() * palette.length)]};
+      --tx: ${Math.cos(angle) * dist}px;
+      --ty: ${Math.sin(angle) * dist}px;
+      animation-delay: ${Math.random() * 0.1}s;
+    `;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 1000);
+  }
+}
+
+// ============================================================
+// FILTER BUTTONS
+// ============================================================
+document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterStatus = btn.dataset.filter;
+    renderAll();
+  });
+});
+
+document.querySelectorAll('.filter-btn[data-rarity]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn[data-rarity]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterRarity = btn.dataset.rarity;
+    renderAll();
+  });
+});
+
+// ============================================================
+// INIT
+// ============================================================
+loadState();
+renderAll();
+// Mark first rarity filter active
+document.querySelector('.filter-btn[data-rarity="all"]').classList.add('active');
+</script>
+</body>
+</html>
